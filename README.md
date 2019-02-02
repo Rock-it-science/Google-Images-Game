@@ -1,9 +1,11 @@
 Players select 3 images from the internet, then enter as many titles as they can, then each
-  player must match another an image to a title. (TKO but with Google image search)
+  player must match an image to a title. (TKO but with Google image search)
+
 Index page:
   Players enter a username and room code.
-  First player to join receives a button that says "all players in"
+  First player to join receives a button that says "start game"
   Host page displays room code and players currently in the game.
+
 Image selection page:
   Displays player name at the top of the page, and when the game starts, prompts
   players to enter an image URL. The page then displays a preview of the image.
