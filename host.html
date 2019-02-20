@@ -1,0 +1,41 @@
+<html>
+<body>
+<h1>The Google Images Game</h1>
+<p id='room_code' style='display:none'>Room code: </p>
+<p id='players'></p>
+<button id='createRoomButton' onclick='createRoom()'>Create room</button>
+
+<script>
+  function createRoom(){//Run createRoom.php and display the echoed room code
+    var createRoomRequest = new XMLHttpRequest();
+    createRoomRequest.onreadystatechange = function check(){
+      if(createRoomRequest.readyState == 4 && createRoomRequest.status == 200){
+        //Set <p> room_code to room code echoed by createRoom.php
+        document.getElementById('room_code').innerHTML = createRoomRequest.responseText;
+        //Show room_code
+        document.getElementById('room_code').style.display = 'block';
+        //Hide createRoomButton
+        document.getElementById('createRoomButton').style.display = 'none';
+        //Run getPlayers function
+        getPlayers(createRoomRequest.responseText);
+      }
+    };
+    createRoomRequest.open("GET", "createRoom.php", true);
+    createRoomRequest.send();
+  }
+
+  //Long poll for players in room
+  function getPlayers(roomCode){
+    var getPlayerRequest = new XMLHttpRequest();
+    getPlayerRequest.onreadystatechange = function check(){
+      if(getPlayerRequest.readyState == 4 && getPlayerRequest.status == 200){
+        document.getElementById('players').innerHTML = getPlayerRequest.responseText;
+        console.log(roomCode);
+      }
+    };
+    getPlayerRequest.open("GET", "pollPlayers.php?rc="+roomCode, true);
+    getPlayerRequest.send();
+  }
+</script>
+</body>
+</html>
