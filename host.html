@@ -28,6 +28,7 @@
   function getPlayers(roomCode){
     var getPlayerRequest = new XMLHttpRequest();
     getPlayerRequest.onreadystatechange = function check(){
+      console.log(getPlayerRequest.readyState + ', ' + getPlayerRequest.status);
       if(getPlayerRequest.readyState == 4 && getPlayerRequest.status == 200){
         document.getElementById('players').innerHTML = getPlayerRequest.responseText;
         console.log(roomCode);
