@@ -2,6 +2,7 @@
 //Get passed variable for room code
 $roomCode = $_REQUEST['rc'];
 
+$GLOBALS['ep'] = array();
 
 function echoPlayers($roomCode){
   //Set up SQL server connection
@@ -14,20 +15,21 @@ function echoPlayers($roomCode){
     die("Connection failed: ". $conn->connect_error);
   }
   //Show players currently in game
-  $echoed_players = array();
   $players = array();
   $players_query = $conn -> query("SELECT player FROM " . $roomCode . ";");
   if(mysqli_num_rows($players_query) > 0){
-    $players = $players_query -> fetch_assoc();
-    foreach($players as &$p){
-      if(!in_array($p, $echoed_players)){//Don't echo players twice
+    foreach($players_query->fetch_all() as &$p_row){//For every row in query response
+      $p = $p_row[0]; //Get item from row
+      if(!in_array($p, $GLOBALS['ep'])){//Don't echo players twice
         echo $p;
       }
-      array_push($echoed_players, $p);
+      array_push($GLOBALS['ep'], $p);
     }
   }
 }
 
+//Temporary solution to below problem
+$GLOBALS['ep'] = [];
 sleep(10);
 echoPlayers($roomCode);
 
